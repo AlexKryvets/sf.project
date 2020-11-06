@@ -10,6 +10,7 @@ services:
         volumes:
             - './nginx-php/nginx.conf:/etc/nginx/conf.d/nginx.conf'
             - '..:/var/www/project'
+            - './scripts:/var/www'
         networks:
             - nginx-proxy
             - internal
