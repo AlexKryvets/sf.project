@@ -6,7 +6,7 @@ services:
             context: ./nginx-php
         container_name: sf.nginx-php
         environment:
-            - VIRTUAL_HOST=domain.tld
+            - VIRTUAL_HOST=sf.project
         volumes:
             - './nginx-php/nginx.conf:/etc/nginx/conf.d/nginx.conf'
             - '..:/var/www/project'
