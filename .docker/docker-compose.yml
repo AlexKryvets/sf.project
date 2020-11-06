@@ -5,11 +5,14 @@ services:
         build:
             context: ./nginx-php
         container_name: sf.nginx-php
+        environment:
+            - VIRTUAL_HOST=domain.tld
         volumes:
             - './nginx-php/nginx.conf:/etc/nginx/conf.d/nginx.conf'
             - '..:/var/www/project'
-        ports:
-            - '80:80'
+        networks:
+            - nginx-proxy
+            - internal
     db:
         image: 'mysql:5.7'
         container_name: sf.mysql
@@ -20,17 +23,20 @@ services:
             - MYSQL_ALLOW_EMPTY_PASSWORD=yes
         ports:
             - '${DB_PORT}:3306'
-#        volumes:
-#            - 'db-volume:/var/lib/mysql'
-#volumes:
-#    db-volume:
-#        external:
-#            name: ${DB_VOLUME}
+        volumes:
+            - 'db-volume:/var/lib/mysql'
+volumes:
+    db-volume:
+        external:
+            name: ${DB_VOLUME}
 networks:
-    default:
+    nginx-proxy:
+        external:
+            name: ${DEFAULT_NETWORK}
+    internal:
         driver: bridge
         ipam:
             driver: default
             config:
-                -   subnet: 192.168.223.0/28
+                - subnet: 192.168.223.0/28
 
