@@ -25,6 +25,8 @@ services:
             - '${DB_PORT}:3306'
         volumes:
             - 'db-volume:/var/lib/mysql'
+        networks:
+            - internal
 volumes:
     db-volume:
         external:
